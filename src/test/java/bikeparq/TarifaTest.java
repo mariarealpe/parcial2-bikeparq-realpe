@@ -7,5 +7,19 @@ import org.junit.jupiter.api.Test;
 
 class TarifaTest {
 
-    // PUNTO 1: escriba aquí las pruebas CP-01, CP-02 y CP-03 del enunciado.
+    @Test
+    void cp01CarroQuePermaneceUnaHoraPaga3000() {
+        assertEquals(3000, Tarifa.calcularTarifa(60, "carro"));
+    }
+
+    @Test
+    void cp02MotoEnElUltimoMinutoDeGraciaNoPaga() {
+        assertEquals(0, Tarifa.calcularTarifa(10, "moto"));
+    }
+
+    @Test
+    void cp03TipoDeVehiculoInvalidoLanzaError() {
+        assertThrows(IllegalArgumentException.class,
+                () -> Tarifa.calcularTarifa(60, "bicicleta"));
+    }
 }
