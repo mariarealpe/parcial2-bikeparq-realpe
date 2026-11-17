@@ -22,4 +22,21 @@ class TarifaTest {
         assertThrows(IllegalArgumentException.class,
                 () -> Tarifa.calcularTarifa(60, "bicicleta"));
     }
+
+    @Test
+    void minutosNegativosLanzanError() {
+        assertThrows(IllegalArgumentException.class,
+                () -> Tarifa.calcularTarifa(-1, "carro"));
+    }
+
+    @Test
+    void minutosMayoresA1440LanzanError() {
+        assertThrows(IllegalArgumentException.class,
+                () -> Tarifa.calcularTarifa(1441, "moto"));
+    }
+
+    @Test
+    void carroNuncaPagaMasDelTopeDiario() {
+        assertEquals(25_000, Tarifa.calcularTarifa(1440, "carro"));
+    }
 }
