@@ -1,27 +1,46 @@
 package bikeparq;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
-public class Reportes {
+public final class Reportes {
 
-    public static Resumen resumenDelDia(List<Registro> l) {
-        int Total = 0, c = 0, m = 0;
-        for (int i = 0; i < l.size(); i++) {
-            Registro r = l.get(i);
-            if (r.tipo() == "carro") {
-                c++; Total += r.valor();
-            }
-            else if (r.tipo() == "moto") {
-                m++; Total += r.valor();
-            }
-        }
-        return new Resumen(Total, c, m);
+    private static final String CARRO = "carro";
+    private static final String MOTO = "moto";
+
+    private Reportes() {
     }
 
-    public static int mayorCobro(List<Registro> l) {
-        int x = 0;
-        for (Registro r : l) if (r.valor() > x) x = r.valor();
-        return x;
+    public static Resumen resumenDelDia(List<Registro> registros) {
+        int totalRecaudado = 0;
+        int cantidadCarros = 0;
+        int cantidadMotos = 0;
+        for (Registro registro : registros) {
+            if (esDeTipo(registro, CARRO)) {
+                cantidadCarros++;
+            }
+            if (esDeTipo(registro, MOTO)) {
+                cantidadMotos++;
+            }
+            if (esVehiculoCobrable(registro)) {
+                totalRecaudado += registro.valor();
+            }
+        }
+        return new Resumen(totalRecaudado, cantidadCarros, cantidadMotos);
+    }
+
+    private static boolean esDeTipo(Registro registro, String tipo) {
+        return tipo.equals(registro.tipo());
+    }
+
+    private static boolean esVehiculoCobrable(Registro registro) {
+        return esDeTipo(registro, CARRO) || esDeTipo(registro, MOTO);
+    }
+
+    public static int mayorCobro(List<Registro> registros) {
+        int mayorValor = 0;
+        for (Registro registro : registros) {
+            mayorValor = Math.max(mayorValor, registro.valor());
+        }
+        return mayorValor;
     }
 }
