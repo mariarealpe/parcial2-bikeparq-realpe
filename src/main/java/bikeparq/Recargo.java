@@ -13,7 +13,7 @@ public final class Recargo {
         if (horaEntrada < 0 || horaEntrada > 23) {
             throw new IllegalArgumentException("La hora de entrada debe estar entre 0 y 23");
         }
-        if (esHorarioNocturno(horaEntrada)) {
+        if (tarifa != 0 && esHorarioNocturno(horaEntrada)) {
             return tarifa + RECARGO_NOCTURNO;
         }
         return tarifa;
